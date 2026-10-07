@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="light">
+<title>CuraWhite – Asisten Kesehatan Herbal Personal</title>
+<style>
+  :root{--green:#1f8a5b;--green-d:#166845;--green-l:#e8f5ee;--ink:#1b2430;--muted:#5d6b7a;--line:#e5e9ee;--bg:#fff;--soft:#f7f9fb;--red:#c0392b;--red-l:#fdecea;color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+  html{scroll-behavior:smooth;scroll-padding-top:env(safe-area-inset-top,0px)}
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:'Segoe UI',system-ui,-apple-system,Arial,sans-serif;color:var(--ink);background:var(--bg);line-height:1.6}
+  .wrap{max-width:1000px;margin:0 auto;padding:0 20px}
+  section{padding:64px 0}
+  h2{font-size:1.8rem;text-align:center;margin-bottom:8px}
+  .sub{text-align:center;color:var(--muted);margin-bottom:36px}
+  /* Hero */
+  .hero{text-align:center;padding:80px 0 64px;background:linear-gradient(180deg,var(--green-l),#fff)}
+  .avatar{width:88px;height:88px;border-radius:50%;background:var(--green);color:#fff;font-size:2.6rem;display:flex;align-items:center;justify-content:center;margin:0 auto 18px;box-shadow:0 8px 24px rgba(31,138,91,.3)}
+  .hero h1{font-size:2.6rem;letter-spacing:-.5px}
+  .hero h1 span{color:var(--green)}
+  .badge{display:inline-block;margin:14px 0;padding:6px 16px;border:1px solid #bfe3cf;background:#fff;border-radius:999px;font-size:.9rem;font-weight:600;color:var(--green-d)}
+  .tagline{max-width:640px;margin:0 auto 26px;color:var(--muted);font-size:1.1rem}
+  .btn{display:inline-block;background:var(--green);color:#fff;text-decoration:none;font-weight:700;padding:14px 30px;border-radius:10px;border:none;cursor:pointer;font-size:1rem;transition:.2s}
+  .btn:hover{background:var(--green-d);transform:translateY(-2px);box-shadow:0 8px 20px rgba(31,138,91,.3)}
+  /* Problem & Solution */
+  .compare{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+  .card{border-radius:14px;padding:26px;border:1px solid var(--line)}
+  .chaos{background:var(--red-l);border-color:#f3c9c4}
+  .solve{background:var(--green-l);border-color:#bfe3cf}
+  .card h3{margin-bottom:14px;font-size:1.2rem}
+  .chaos h3{color:var(--red)}
+  .solve h3{color:var(--green-d)}
+  .card ul{list-style:none}
+  .card li{padding:10px 0 10px 28px;position:relative;border-bottom:1px dashed rgba(0,0,0,.08)}
+  .card li:last-child{border:none}
+  .chaos li::before{content:"✕";position:absolute;left:0;color:var(--red);font-weight:700}
+  .solve li::before{content:"✓";position:absolute;left:0;color:var(--green);font-weight:700}
+  /* Capabilities */
+  .caps{background:var(--soft)}
+  .grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+  .cap{background:#fff;border:1px solid var(--line);border-radius:14px;padding:26px;transition:.2s}
+  .cap:hover{transform:translateY(-4px);box-shadow:0 10px 24px rgba(0,0,0,.07)}
+  .cap .ico{font-size:2rem;margin-bottom:10px}
+  .cap h3{margin-bottom:6px;font-size:1.1rem}
+  .cap p{color:var(--muted);font-size:.95rem}
+  /* Chat */
+  .chat{max-width:620px;margin:0 auto;border:1px solid var(--line);border-radius:16px;overflow:hidden;box-shadow:0 10px 30px rgba(0,0,0,.07)}
+  .chat-head{background:var(--green);color:#fff;padding:14px 18px;font-weight:600;display:flex;align-items:center;gap:10px}
+  .dot{width:10px;height:10px;border-radius:50%;background:#7dffb3}
+  .chat-body{height:340px;overflow-y:auto;padding:18px;background:var(--soft);display:flex;flex-direction:column;gap:10px}
+  .msg{max-width:82%;padding:10px 14px;border-radius:14px;font-size:.95rem;animation:pop .3s ease}
+  .msg.user{align-self:flex-end;background:var(--green);color:#fff;border-bottom-right-radius:4px}
+  .msg.bot{align-self:flex-start;background:#fff;border:1px solid var(--line);border-bottom-left-radius:4px}
+  .typing{display:flex;gap:4px;padding:14px}
+  .typing i{width:7px;height:7px;border-radius:50%;background:#9aa7b4;animation:blink 1.2s infinite}
+  .typing i:nth-child(2){animation-delay:.2s}
+  .typing i:nth-child(3){animation-delay:.4s}
+  .hint{color:var(--muted);text-align:center;font-size:.9rem;margin:auto}
+  .scen{display:flex;flex-wrap:wrap;gap:10px;padding:14px;background:#fff;border-top:1px solid var(--line)}
+  .scen button{flex:1 1 150px;padding:10px 12px;border:1px solid var(--green);background:#fff;color:var(--green-d);border-radius:10px;font-weight:600;cursor:pointer;font-size:.9rem;transition:.2s}
+  .scen button:hover:not(:disabled){background:var(--green);color:#fff}
+  .scen button:disabled{opacity:.5;cursor:not-allowed}
+  @keyframes pop{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+  @keyframes blink{0%,80%,100%{opacity:.3}40%{opacity:1}}
+  /* Footer */
+  footer{background:var(--ink);color:#fff;text-align:center;padding:64px 20px 32px}
+  footer h2{color:#fff}
+  footer p{color:#b7c2cf}
+  .cta{font-size:1.15rem;padding:16px 40px;margin:22px 0 34px;box-shadow:0 0 0 0 rgba(31,138,91,.6);animation:pulse 2s infinite}
+  .disc{max-width:640px;margin:0 auto 18px;font-size:.82rem;color:#8d9aaa}
+  .built{font-size:.85rem;color:#8d9aaa;border-top:1px solid #2e3a48;padding-top:20px}
+  @keyframes pulse{70%{box-shadow:0 0 0 14px rgba(31,138,91,0)}100%{box-shadow:0 0 0 0 rgba(31,138,91,0)}}
+  @media(max-width:760px){.compare,.grid3{grid-template-columns:1fr}.hero h1{font-size:2rem}section{padding:48px 0}}
+</style>
+</head>
+<body>
+
+<!-- 1. HERO -->
+<header class="hero">
+  <div class="wrap">
+    <div class="avatar">🌿</div>
+    <h1>Cura<span>White</span></h1>
+    <div class="badge">🟢 Status: Active &amp; Ready 24/7</div>
+    <p class="tagline">Asisten kesehatan personal berbasis AI yang memandu konsumsi harian bubuk temu putih, memantau perkembangan kesehatanmu, dan menjadwalkan rutinitas secara otomatis.</p>
+    <a href="#demo" class="btn">Coba Simulasi ↓</a>
+  </div>
+</header>
+
+<!-- 2. PROBLEM & SOLUTION -->
+<section>
+  <div class="wrap">
+    <h2>Dari Bingung ke Terarah</h2>
+    <p class="sub">From confusion to a consistent herbal routine.</p>
+    <div class="compare">
+      <div class="card chaos">
+        <h3>😵 The Chaos</h3>
+        <ul>
+          <li><b>Bingung takaran &amp; cara konsumsi.</b> Konsumen ragu berapa takaran bubuk temu putih yang tepat untuk kebutuhan mereka (misal: lambung vs. kesehatan umum) dan cara menyeduh agar tidak terlalu pahit.</li>
+          <li><b>Konsumsi tidak konsisten.</b> Herbal sudah dibeli, tetapi sering lupa diminum secara rutin sehingga manfaatnya tidak terasa maksimal.</li>
+        </ul>
+      </div>
+      <div class="card solve">
+        <h3>✨ The Solution</h3>
+        <ul>
+          <li><b>Personalized Herbal Plan.</b> Rencana konsumsi temu putih yang disesuaikan dengan profil dan kebutuhanmu, lengkap dengan tips menyeduh.</li>
+          <li><b>Pengingat minum otomatis.</b> CuraWhite menjadwalkan dan mengingatkan rutinitasmu setiap hari, sehingga konsumsi jadi konsisten.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 3. CORE CAPABILITIES -->
+<section class="caps">
+  <div class="wrap">
+    <h2>Core Capabilities</h2>
+    <p class="sub">Tiga kemampuan utama CuraWhite.</p>
+    <div class="grid3">
+      <div class="cap"><div class="ico">💬</div><h3>WhatsApp Reminder</h3><p>Pengingat minum harian langsung ke WhatsApp, tepat waktu sesuai rutinitasmu.</p></div>
+      <div class="cap"><div class="ico">📅</div><h3>Google Calendar</h3><p>Jadwal konsumsi dan evaluasi progres otomatis tersusun di kalendermu.</p></div>
+      <div class="cap"><div class="ico">🧑‍⚕️</div><h3>Human-in-the-Loop</h3><p>Untuk kasus yang butuh penilaian profesional, CuraWhite mengarahkanmu ke tenaga kesehatan.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- 4. INTERACTIVE SIMULATION -->
+<section id="demo">
+  <div class="wrap">
+    <h2>Interactive Demo</h2>
+    <p class="sub">Pilih skenario dan lihat CuraWhite bekerja.</p>
+    <div class="chat">
+      <div class="chat-head"><span class="dot"></span>CuraWhite · Online</div>
+      <div class="chat-body" id="chatBody"><p class="hint" id="hint">👇 Klik salah satu skenario di bawah</p></div>
+      <div class="scen">
+        <button data-s="0">🥄 Takaran &amp; Cara Seduh</button>
+        <button data-s="1">⏰ Atur Pengingat</button>
+        <button data-s="2">📈 Cek Progres</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 5. FOOTER & CTA -->
+<footer>
+  <div class="wrap">
+    <h2>Siap Mulai Rutinitas Herbalmu?</h2>
+    <p>Ready to build a consistent habit? Chat langsung dengan kami.</p>
+    <a class="btn cta" href="https://wa.me/6282230001534" target="_blank" rel="noopener">💬 Chat via WhatsApp</a>
+    <p class="disc">CuraWhite adalah asisten pendamping gaya hidup, bukan pengganti diagnosis atau terapi medis. Konsultasikan kondisi kesehatanmu dengan dokter atau tenaga kesehatan.</p>
+    <div class="built">Built with AI · AI Builder Bootcamp Showcase</div>
+  </div>
+</footer>
+
+<script>
+  const scenarios = [
+    { user: "Berapa takaran temu putih yang pas buat saya? Lambung saya sering perih.",
+      bot: [
+        "Halo! Takaran ideal bergantung pada kondisi, usia, dan produk yang kamu pakai. 🌿",
+        "Saya mulai dari takaran di label kemasan, lalu sesuaikan dengan profilmu. Untuk keluhan lambung, saya sarankan mulai ringan dan perhatikan responsnya.",
+        "Tips seduh: larutkan dalam air hangat (bukan mendidih), aduk rata, tambah sedikit madu agar tidak terlalu pahit. Kalau keluhan berlanjut, saya sambungkan ke tenaga kesehatan ya. 🧑‍⚕️"
+      ]},
+    { user: "Saya sering lupa minum. Tolong ingatkan setiap pagi dan malam.",
+      bot: [
+        "Siap! Saya buat jadwalnya sekarang. ⏰",
+        "✅ Pengingat pagi (sebelum sarapan) dan malam (setelah makan) sudah aktif di WhatsApp.",
+        "📅 Jadwal juga masuk ke Google Calendar-mu, lengkap dengan evaluasi mingguan. Kamu bisa ubah jamnya kapan saja."
+      ]},
+    { user: "Sudah seminggu konsumsi rutin. Gimana perkembangan saya?",
+      bot: [
+        "Kerja bagus! 👏 Kamu konsisten minum 6 dari 7 hari minggu ini.",
+        "Berdasarkan catatanmu, keluhan perih berkurang di beberapa hari. Ini catatan pribadimu, bukan diagnosis.",
+        "Saran saya: pertahankan jadwal, catat respons tubuhmu, dan konsultasikan ke dokter untuk evaluasi lanjutan. 🌿"
+      ]}
+  ];
+
+  const body = document.getElementById("chatBody");
+  const buttons = document.querySelectorAll(".scen button");
+  const wait = ms => new Promise(r => setTimeout(r, ms));
+
+  function addMsg(text, who) {
+    const d = document.createElement("div");
+    d.className = "msg " + who;
+    d.textContent = text;
+    body.appendChild(d);
+    body.scrollTop = body.scrollHeight;
+  }
+  function showTyping() {
+    const t = document.createElement("div");
+    t.className = "msg bot typing";
+    t.innerHTML = "<i></i><i></i><i></i>";
+    body.appendChild(t);
+    body.scrollTop = body.scrollHeight;
+    return t;
+  }
+
+  async function run(idx) {
+    buttons.forEach(b => b.disabled = true);
+    const hint = document.getElementById("hint");
+    if (hint) hint.remove();
+    body.innerHTML = "";
+    const s = scenarios[idx];
+    addMsg(s.user, "user");
+    for (const line of s.bot) {
+      await wait(500);
+      const t = showTyping();
+      await wait(1200);
+      t.remove();
+      addMsg(line, "bot");
+    }
+    buttons.forEach(b => b.disabled = false);
+  }
+
+  buttons.forEach(b => b.addEventListener("click", () => run(+b.dataset.s)));
+</script>
+</body>
+</html>
