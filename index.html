@@ -63,6 +63,14 @@
   .scen button:disabled{opacity:.5;cursor:not-allowed}
   @keyframes pop{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
   @keyframes blink{0%,80%,100%{opacity:.3}40%{opacity:1}}
+  /* Places table */
+  .table-wrap{overflow-x:auto;border:1px solid var(--line);border-radius:14px;background:#fff}
+  #places{width:100%;border-collapse:collapse;font-size:.92rem;min-width:720px}
+  #places th,#places td{padding:12px 14px;text-align:left;border-bottom:1px solid var(--line)}
+  #places th{background:var(--green-l);color:var(--green-d);font-weight:700;white-space:nowrap}
+  #places tbody tr:last-child td{border-bottom:none}
+  #places tbody tr:hover{background:var(--soft)}
+  #places a{color:var(--green-d);font-weight:600}
   /* Footer */
   footer{background:var(--ink);color:#fff;text-align:center;padding:64px 20px 32px}
   footer h2{color:#fff}
@@ -141,6 +149,22 @@
   </div>
 </section>
 
+<!-- 4b. PLACES DATA -->
+<section id="places-section">
+  <div class="wrap">
+    <h2>Daftar Tempat</h2>
+    <p class="sub">Data dimuat langsung dari database.</p>
+    <div class="table-wrap">
+<table id="places">
+  <thead>
+    <tr><th>Nama</th><th>Kategori</th><th>Rating</th><th>Review</th><th>Kota</th><th>Telepon</th><th>Maps</th></tr>
+  </thead>
+  <tbody><tr><td colspan="7">Memuat data...</td></tr></tbody>
+</table>
+    </div>
+  </div>
+</section>
+
 <!-- 5. FOOTER & CTA -->
 <footer>
   <div class="wrap">
@@ -212,6 +236,47 @@
   }
 
   buttons.forEach(b => b.addEventListener("click", () => run(+b.dataset.s)));
+</script>
+<script>
+  const SUPABASE_URL = 'https://cpahyzxetmbhvmaezbcx.supabase.co'
+  const SUPABASE_KEY = 'sb_publishable_QtiCCW0yO-xZr2OpChRSuw_8eZIqTUg'
+  async function loadPlaces() {
+    const tbody = document.querySelector('#places tbody');
+    try {
+      const res = await fetch(
+        SUPABASE_URL + '/rest/v1/places?select=*&order=reviews_count.desc.nullslast&limit=100',
+        { headers: { apikey: SUPABASE_KEY } }
+      );
+      if (!res.ok) throw new Error('HTTP ' + res.status);
+      const rows = await res.json();
+
+      tbody.replaceChildren();
+      for (const p of rows) {
+        const tr = document.createElement('tr');
+        for (const v of [p.title, p.category_name, p.total_score, p.reviews_count, p.city, p.phone]) {
+          const td = document.createElement('td');
+          td.textContent = v ?? '-';
+          tr.appendChild(td);
+        }
+        const td = document.createElement('td');
+        if (p.url && p.url.startsWith('https://')) {
+          const a = document.createElement('a');
+          a.href = p.url;
+          a.target = '_blank';
+          a.rel = 'noopener';
+          a.textContent = 'Buka';
+          td.appendChild(a);
+        }
+        tr.appendChild(td);
+        tbody.appendChild(tr);
+      }
+      if (!rows.length) tbody.innerHTML = '<tr><td colspan="7">Belum ada data.</td></tr>';
+    } catch (e) {
+      tbody.innerHTML = '<tr><td colspan="7">Gagal memuat data.</td></tr>';
+      console.error(e);
+    }
+  }
+  loadPlaces();
 </script>
 </body>
 </html>
